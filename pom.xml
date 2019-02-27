@@ -2,48 +2,18 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>pentaho</groupId>
+  <groupId>com.kezaihui</groupId>
   <artifactId>mondrian</artifactId>
-  <version>4.7.0.21-184</version>
+  <version>0.0.1</version>
   <name>mondrian</name>
   <description>Mondrian OLAP engine.</description>
-  <url>http://github.com/pentaho/mondrian</url>
-  <inceptionYear>2001</inceptionYear>
-  <organization>
-    <name>Pentaho</name>
-    <url>http://www.pentaho.com</url>
-  </organization>
+  <url>http://github.com/hui-z/mondrian</url>
   <licenses>
     <license>
       <name>Eclipse Public License</name>
       <url>http://www.eclipse.org/legal/epl-v10.html</url>
     </license>
   </licenses>
-  <developers>
-    <developer>
-      <id>julianhyde</id>
-      <name>Julian Hyde</name>
-      <email>julianhyde@gmail.com</email>
-      <url>https://github.com/julianhyde</url>
-      <roles>
-        <role>architect</role>
-        <role>developer</role>
-      </roles>
-      <timezone>-8</timezone>
-    </developer>
-  </developers>
-  <mailingLists>
-    <mailingList>
-      <name>Mondrian developers list</name>
-      <post>mondrian@pentaho.org</post>
-      <archive>http://lists.pentaho.org/pipermail/mondrian/</archive>
-    </mailingList>
-  </mailingLists>
-  <scm>
-    <connection>scm:git:git://github.com/pentaho/mondrian.git</connection>
-    <developerConnection>scm:git:git@github.com:pentaho/mondrian.git</developerConnection>
-    <url>http://github.com/pentaho/mondrian/tree/master</url>
-  </scm>
   <issueManagement />
   <distributionManagement>
     <repository>
