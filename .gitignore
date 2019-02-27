@@ -27,3 +27,9 @@ lib/mondrian.dtd
 lib/mondrian3.dtd
 mondrian.properties.template
 
+*.iml
+target
+
+dist
+dev-lib
+bin
