@@ -1,12 +1,12 @@
 /*
-// This software is subject to the terms of the Eclipse Public License v1.0
-// Agreement, available at the following URL:
-// http://www.eclipse.org/legal/epl-v10.html.
-// You must accept the terms of that agreement to use this software.
-//
-// Copyright (C) 2011-2013 Pentaho
-// All Rights Reserved.
-*/
+ * This software is subject to the terms of the Eclipse Public License v1.0
+ * Agreement, available at the following URL:
+ * http://www.eclipse.org/legal/epl-v10.html.
+ * You must accept the terms of that agreement to use this software.
+ *
+ * Copyright (c) 2002-2017 Hitachi Vantara..  All rights reserved.
+ */
+
 package mondrian.util;
 
 import org.eigenbase.util.property.*;
@@ -39,23 +39,23 @@ public class PropertyUtil {
         System.out.println("<PropertyDefinitions>");
         for (Field field : properties1.getClass().getFields()) {
             org.eigenbase.util.property.Property o =
-                (org.eigenbase.util.property.Property) field.get(properties1);
+                    (org.eigenbase.util.property.Property) field.get(properties1);
             System.out.println("    <PropertyDefinition>");
             System.out.println("        <Name>" + field.getName() + "</Name>");
             System.out.println("        <Path>" + o.getPath() + "</Path>");
             System.out.println(
-                "        <Description>" + o.getPath() + "</Description>");
+                    "        <Description>" + o.getPath() + "</Description>");
             System.out.println(
-                "        <Type>"
-                + (o instanceof BooleanProperty ? "boolean"
-                    : o instanceof IntegerProperty ? "int"
-                        : o instanceof DoubleProperty ? "double"
+                    "        <Type>"
+                            + (o instanceof BooleanProperty ? "boolean"
+                            : o instanceof IntegerProperty ? "int"
+                            : o instanceof DoubleProperty ? "double"
                             : "String")
-                + "</Type>");
+                            + "</Type>");
             if (o.getDefaultValue() != null) {
                 System.out.println(
-                    "        <Default>"
-                    + o.getDefaultValue() + "</Default"  + ">");
+                        "        <Default>"
+                                + o.getDefaultValue() + "</Default"  + ">");
             }
             System.out.println("    </PropertyDefinition>");
         }
@@ -91,27 +91,24 @@ public class PropertyUtil {
      */
     public static void main(String[] args)
     {
-
         try {
-            new PropertyUtil().generate(args[0]);
+            new PropertyUtil().generate(args);
         } catch (Throwable e) {
             System.out.println("Error while generating properties files.");
             e.printStackTrace();
         }
     }
 
-    private void generate(String basePath) {
+    private void generate(String[] args) {
+        String olapDir = args.length > 0 ? args[0] : "src/main/java/mondrian/olap";
+        String outputDir = args.length > 1 ? args[1] : "src/generated/java/mondrian/olap";
         final File xmlFile =
-            new File(basePath + "/src/main/prop/mondrian/olap", "MondrianProperties.xml");
+                new File(olapDir, "MondrianProperties.xml");
         final File javaFile =
-            new File(
-                    basePath + "/target/generated-sources/prop/mondrian/olap",
-                "MondrianProperties.java");
-
-        javaFile.getParentFile().mkdirs();
+                new File(outputDir, "MondrianProperties.java");
         final File propertiesFile =
-            new File("mondrian.properties.template");
-        final File htmlFile = new File("doc", "properties.html");
+                new File("target/mondrian.properties.template");
+        final File htmlFile = new File("target/site/doc", "properties.html");
 
         SortedMap<String, PropertyDef> propertyDefinitionMap;
         try {
@@ -123,7 +120,7 @@ public class PropertyUtil {
             Element documentElement = doc.getDocumentElement();
             assert documentElement.getNodeName().equals("PropertyDefinitions");
             NodeList propertyDefinitions =
-                documentElement.getChildNodes();
+                    documentElement.getChildNodes();
             propertyDefinitionMap = new TreeMap<String, PropertyDef>();
             for (Node element : iter(propertyDefinitions)) {
                 if (element.getNodeName().equals("PropertyDefinition")) {
@@ -135,15 +132,15 @@ public class PropertyUtil {
                     String core = getChildCdata(element, "Core");
                     String description = getChildCdata(element, "Description");
                     propertyDefinitionMap.put(
-                        name,
-                        new PropertyDef(
                             name,
-                            path,
-                            dflt,
-                            category,
-                            PropertyType.valueOf(type.toUpperCase()),
-                            core == null || Boolean.valueOf(core),
-                            description));
+                            new PropertyDef(
+                                    name,
+                                    path,
+                                    dflt,
+                                    category,
+                                    PropertyType.valueOf(type.toUpperCase()),
+                                    core == null || Boolean.valueOf(core),
+                                    description));
                 }
             }
         } catch (Throwable e) {
@@ -155,9 +152,9 @@ public class PropertyUtil {
     }
 
     void doGenerate(
-        Generator generator,
-        SortedMap<String, PropertyDef> propertyDefinitionMap,
-        File file)
+            Generator generator,
+            SortedMap<String, PropertyDef> propertyDefinitionMap,
+            File file)
     {
         FileWriter fw = null;
         PrintWriter out = null;
@@ -202,9 +199,9 @@ public class PropertyUtil {
         JAVA {
             @Override
             void generate(
-                SortedMap<String, PropertyDef> propertyDefinitionMap,
-                File file,
-                PrintWriter out)
+                    SortedMap<String, PropertyDef> propertyDefinitionMap,
+                    File file,
+                    PrintWriter out)
             {
                 out.println("// Generated from MondrianProperties.xml.");
                 out.println("package mondrian.olap;");
@@ -214,43 +211,43 @@ public class PropertyUtil {
                 out.println();
 
                 printJavadoc(
-                    out, "",
-                    "Configuration properties that determine the\n"
-                    + "behavior of a mondrian instance.\n"
-                    + "\n"
-                    + "<p>There is a method for property valid in a\n"
-                    + "<code>mondrian.properties</code> file. Although it is possible to retrieve\n"
-                    + "properties using the inherited {@link java.util.Properties#getProperty(String)}\n"
-                    + "method, we recommend that you use methods in this class.</p>\n");
+                        out, "",
+                        "Configuration properties that determine the\n"
+                                + "behavior of a mondrian instance.\n"
+                                + "\n"
+                                + "<p>There is a method for property valid in a\n"
+                                + "<code>mondrian.properties</code> file. Although it is possible to retrieve\n"
+                                + "properties using the inherited {@link java.util.Properties#getProperty(String)}\n"
+                                + "method, we recommend that you use methods in this class.</p>\n");
                 String[] lines = {
-                    "public class MondrianProperties extends MondrianPropertiesBase {",
-                    "    /**",
-                    "     * Properties, drawn from {@link System#getProperties},",
-                    "     * plus the contents of \"mondrian.properties\" if it",
-                    "     * exists. A singleton.",
-                    "     */",
-                    "    private static final MondrianProperties instance =",
-                    "        new MondrianProperties();",
-                    "",
-                    "    private MondrianProperties() {",
-                    "        super(",
-                    "            new FilePropertySource(",
-                    "                new File(mondrianDotProperties)));",
-                    "        populate();",
-                    "    }",
-                    "",
-                    "    /**",
-                    "     * Returns the singleton.",
-                    "     *",
-                    "     * @return Singleton instance",
-                    "     */",
-                    "    public static MondrianProperties instance() {",
-                    "        // NOTE: We used to instantiate on demand, but",
-                    "        // synchronization overhead was significant. See",
-                    "        // MONDRIAN-978.",
-                    "        return instance;",
-                    "    }",
-                    "",
+                        "public class MondrianProperties extends MondrianPropertiesBase {",
+                        "    /**",
+                        "     * Properties, drawn from {@link System#getProperties},",
+                        "     * plus the contents of \"mondrian.properties\" if it",
+                        "     * exists. A singleton.",
+                        "     */",
+                        "    private static final MondrianProperties instance =",
+                        "        new MondrianProperties();",
+                        "",
+                        "    private MondrianProperties() {",
+                        "        super(",
+                        "            new FilePropertySource(",
+                        "                new File(mondrianDotProperties)));",
+                        "        populate();",
+                        "    }",
+                        "",
+                        "    /**",
+                        "     * Returns the singleton.",
+                        "     *",
+                        "     * @return Singleton instance",
+                        "     */",
+                        "    public static MondrianProperties instance() {",
+                        "        // NOTE: We used to instantiate on demand, but",
+                        "        // synchronization overhead was significant. See",
+                        "        // MONDRIAN-978.",
+                        "        return instance;",
+                        "    }",
+                        "",
                 };
                 printLines(out, lines);
                 for (PropertyDef def : propertyDefinitionMap.values()) {
@@ -259,13 +256,13 @@ public class PropertyUtil {
                     }
                     printJavadoc(out, "    ", def.description);
                     out.println(
-                        "    public transient final "
-                        + def.propertyType.className + " " + def.name + " =");
+                            "    public transient final "
+                                    + def.propertyType.className + " " + def.name + " =");
                     out.println(
-                        "        new " + def.propertyType.className + "(");
+                            "        new " + def.propertyType.className + "(");
                     out.println(
-                        "            this, \"" + def.path + "\", "
-                        + "" + def.defaultJava() + ");");
+                            "            this, \"" + def.path + "\", "
+                                    + "" + def.defaultJava() + ");");
                     out.println();
                 }
                 out.println("}");
@@ -277,9 +274,9 @@ public class PropertyUtil {
         HTML {
             @Override
             void generate(
-                SortedMap<String, PropertyDef> propertyDefinitionMap,
-                File file,
-                PrintWriter out)
+                    SortedMap<String, PropertyDef> propertyDefinitionMap,
+                    File file,
+                    PrintWriter out)
             {
                 out.println("<table>");
                 out.println("    <tr>");
@@ -296,8 +293,8 @@ public class PropertyUtil {
                 for (String category : categories) {
                     out.println("    <tr>");
                     out.println(
-                        "      <td colspan='4'><b><br>" + category + "</b"
-                        + "></td>");
+                            "      <td colspan='4'><b><br>" + category + "</b"
+                                    + "></td>");
                     out.println("    </tr>");
                     for (PropertyDef def : propertyDefinitionMap.values()) {
                         if (!def.category.equals(category)) {
@@ -305,16 +302,16 @@ public class PropertyUtil {
                         }
                         out.println("    <tr>");
                         out.println(
-                            "<td><code><a href='api/mondrian/olap/MondrianProperties.html#"
-                            + def.name + "'>" + split(def.path)
-                            + "</a></code></td>");
+                                "<td><code><a href='api/mondrian/olap/MondrianProperties.html#"
+                                        + def.name + "'>" + split(def.path)
+                                        + "</a></code></td>");
                         out.println(
-                            "<td>" + def.propertyType.name() .toLowerCase()
-                            + "</td>");
+                                "<td>" + def.propertyType.name() .toLowerCase()
+                                        + "</td>");
                         out.println(
-                            "<td>" + split(def.defaultHtml()) + "</td>");
+                                "<td>" + split(def.defaultHtml()) + "</td>");
                         out.println(
-                            "<td>" + split(def.description) + "</td>");
+                                "<td>" + split(def.description) + "</td>");
                         out.println("    </tr>");
                     }
                 }
@@ -332,23 +329,23 @@ public class PropertyUtil {
 
         PROPERTIES {
             void generate(
-                SortedMap<String, PropertyDef> propertyDefinitionMap,
-                File file,
-                PrintWriter out)
+                    SortedMap<String, PropertyDef> propertyDefinitionMap,
+                    File file,
+                    PrintWriter out)
             {
                 printComments(
-                    out,
-                    "",
-                    "#",
-                    wrapText(
-                        "This software is subject to the terms of the Eclipse Public License v1.0\n"
-                        + "Agreement, available at the following URL:\n"
-                        + "http://www.eclipse.org/legal/epl-v10.html.\n"
-                        + "You must accept the terms of that agreement to use this software.\n"
-                        + "\n"
-                        + "Copyright (C) 2001-2005 Julian Hyde\n"
-                        + "Copyright (C) 2005-2011 Pentaho and others\n"
-                        + "All Rights Reserved."));
+                        out,
+                        "",
+                        "#",
+                        wrapText(
+                                "This software is subject to the terms of the Eclipse Public License v1.0\n"
+                                        + "Agreement, available at the following URL:\n"
+                                        + "http://www.eclipse.org/legal/epl-v10.html.\n"
+                                        + "You must accept the terms of that agreement to use this software.\n"
+                                        + "\n"
+                                        + "Copyright (C) 2001-2005 Julian Hyde\n"
+                                        + "Copyright (C) 2005-2011 Pentaho and others\n"
+                                        + "All Rights Reserved."));
                 out.println();
 
                 char[] chars = new char[79];
@@ -357,11 +354,11 @@ public class PropertyUtil {
                 for (PropertyDef def : propertyDefinitionMap.values()) {
                     out.println(commentLine);
                     printComments(
-                        out, "", "#", wrapText(stripHtml(def.description)));
+                            out, "", "#", wrapText(stripHtml(def.description)));
                     out.println("#");
                     out.println(
-                        "#" + def.path + "="
-                        + (def.defaultValue == null ? "" : def.defaultValue));
+                            "#" + def.path + "="
+                                    + (def.defaultValue == null ? "" : def.defaultValue));
                     out.println();
                 }
                 printComments(out, "", "#", wrapText("End " + file.getName()));
@@ -369,14 +366,14 @@ public class PropertyUtil {
         };
 
         abstract void generate(
-            SortedMap<String, PropertyDef> propertyDefinitionMap,
-            File file,
-            PrintWriter out);
+                SortedMap<String, PropertyDef> propertyDefinitionMap,
+                File file,
+                PrintWriter out);
     }
 
 
     private static void printJavadoc(
-        PrintWriter out, String prefix, String content)
+            PrintWriter out, String prefix, String content)
     {
         out.println(prefix + "/**");
         printComments(out, prefix, " *", wrapText(content));
@@ -384,10 +381,10 @@ public class PropertyUtil {
     }
 
     private static void printComments(
-        PrintWriter out,
-        String offset,
-        String prefix,
-        List<String> strings)
+            PrintWriter out,
+            String offset,
+            String prefix,
+            List<String> strings)
     {
         for (String line : strings) {
             if (line.length() > 0) {
@@ -400,8 +397,8 @@ public class PropertyUtil {
 
     private static String quoteHtml(String s) {
         return s.replaceAll("&", "&amp;")
-            .replaceAll(">", "&gt;")
-            .replaceAll("<", "&lt;");
+                .replaceAll(">", "&gt;")
+                .replaceAll("<", "&lt;");
     }
 
     private static String stripHtml(String s) {
@@ -409,7 +406,7 @@ public class PropertyUtil {
         s = s.replaceAll("<h3>", "<h3>### ");
         s = s.replaceAll("</h3>", " ###</h3>");
         String[] strings = {
-            "p", "code", "br", "ul", "li", "blockquote", "h3", "i" };
+                "p", "code", "br", "ul", "li", "blockquote", "h3", "i" };
         for (String string : strings) {
             s = s.replaceAll("<" + string + "/>", "");
             s = s.replaceAll("<" + string + ">", "");
@@ -431,8 +428,8 @@ public class PropertyUtil {
                 break;
             }
             s = s.substring(0, i)
-                + s.substring(i + start.length(), j)
-                + s.substring(j + 1);
+                    + s.substring(i + start.length(), j)
+                    + s.substring(j + 1);
             i = j - start.length() - end.length();
         }
         return s;
@@ -457,7 +454,7 @@ public class PropertyUtil {
     private static void textRecurse(Node node, StringBuilder buf) {
         for (Node node1 : iter(node.getChildNodes())) {
             if (node1.getNodeType() == Node.CDATA_SECTION_NODE
-                || node1.getNodeType() == Node.TEXT_NODE)
+                    || node1.getNodeType() == Node.TEXT_NODE)
             {
                 buf.append(quoteHtml(node1.getTextContent()));
             }
@@ -479,13 +476,13 @@ public class PropertyUtil {
         private final String path;
 
         PropertyDef(
-            String name,
-            String path,
-            String defaultValue,
-            String category,
-            PropertyType propertyType,
-            boolean core,
-            String description)
+                String name,
+                String path,
+                String defaultValue,
+                String category,
+                PropertyType propertyType,
+                boolean core,
+                String description)
         {
             this.name = name;
             this.path = path;
@@ -498,14 +495,14 @@ public class PropertyUtil {
 
         public String defaultJava() {
             switch (propertyType) {
-            case STRING:
-                if (defaultValue == null) {
-                    return "null";
-                } else {
-                    return "\"" + defaultValue.replaceAll("\"", "\\\"") + "\"";
-                }
-            default:
-                return defaultValue;
+                case STRING:
+                    if (defaultValue == null) {
+                        return "null";
+                    } else {
+                        return "\"" + defaultValue.replaceAll("\"", "\\\"") + "\"";
+                    }
+                default:
+                    return defaultValue;
             }
         }
 
@@ -514,12 +511,12 @@ public class PropertyUtil {
                 return "-";
             }
             switch (propertyType) {
-            case INT:
-            case DOUBLE:
-                return new DecimalFormat("#,###.#").format(
-                    new BigDecimal(defaultValue));
-            default:
-                return defaultValue;
+                case INT:
+                case DOUBLE:
+                    return new DecimalFormat("#,###.#").format(
+                            new BigDecimal(defaultValue));
+                default:
+                    return defaultValue;
             }
         }
     }
@@ -537,5 +534,3 @@ public class PropertyUtil {
         }
     }
 }
-
-// End PropertyUtil.java
