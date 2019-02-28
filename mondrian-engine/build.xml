@@ -26,12 +26,12 @@
     ===================================================================
   -->
 
-  <property name="src.dir" value="src/main/java"/>
-  <property name="testsrc.dir" value="src/test/java"/>
-  <property name="javacc.src.dir" value="src/main/javacc"/>
-  <property name="classes.dir" value="target/classes"/>
-  <property name="testclasses.dir" value="target/test-classes"/>
-  <property name="testclasses-jdk14.dir" value="target/test-classes-jdk14"/>
+  <property name="src.dir" value="${project.location}/src/main/java"/>
+  <property name="testsrc.dir" value="${project.location}/src/test/java"/>
+  <property name="javacc.src.dir" value="${project.location}/src/main/javacc"/>
+  <property name="classes.dir" value="${project.location}/target/classes"/>
+  <property name="testclasses.dir" value="${project.location}/target/test-classes"/>
+  <property name="testclasses-jdk14.dir" value="${project.location}/target/test-classes-jdk14"/>
 
   <import file="subfloor.xml" />
 
@@ -462,7 +462,7 @@ copy"/>
     <!-- Compile MondrianException first, so that resgen can use
          reflection on it. -->
     <javac
-        srcdir="src/main/java"
+        srcdir="${project.location}/src/main/java"
         destdir="${classes.dir}"
         debug="${project.build.debug}"
         classpathref="project.build.classpath"
@@ -507,7 +507,7 @@ copy"/>
     </javac>
 
     <java classpathref="project.build.classpath"
-        classname="mondrian.util.PropertyUtil"
+        classname="mondrian.util.PropertyUtil" args="${basedir}"
         fork="no"/>
   </target>
 

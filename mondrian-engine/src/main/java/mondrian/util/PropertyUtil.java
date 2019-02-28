@@ -91,21 +91,23 @@ public class PropertyUtil {
      */
     public static void main(String[] args)
     {
+
         try {
-            new PropertyUtil().generate();
+            new PropertyUtil().generate(args[0]);
         } catch (Throwable e) {
             System.out.println("Error while generating properties files.");
             e.printStackTrace();
         }
     }
 
-    private void generate() {
+    private void generate(String basePath) {
         final File xmlFile =
-            new File("src/main/prop/mondrian/olap", "MondrianProperties.xml");
+            new File(basePath + "/src/main/prop/mondrian/olap", "MondrianProperties.xml");
         final File javaFile =
             new File(
-                "target/generated-sources/prop/mondrian/olap",
+                    basePath + "/target/generated-sources/prop/mondrian/olap",
                 "MondrianProperties.java");
+
         javaFile.getParentFile().mkdirs();
         final File propertiesFile =
             new File("mondrian.properties.template");
