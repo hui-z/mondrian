@@ -4,9 +4,7 @@ Mondrian 4.0.0 beta release notes
 Introduction
 ------------
 
-Mondrian 4.0.0 is a beta release of a new major version of the
-leading open-source OLAP engine. To find out more about mondrian,
-go to http://mondrian.pentaho.com.
+Mondrian is a leading open-source OLAP engine. This project is based on pentaho/Mondrian tag 4.7.0.21-R. For more information, see https://github.com/pentaho/mondrian。
 
 Contents
 --------
