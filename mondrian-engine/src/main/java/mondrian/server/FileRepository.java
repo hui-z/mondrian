@@ -13,7 +13,7 @@ import mondrian.olap.*;
 import mondrian.olap4j.MondrianOlap4jDriver;
 import mondrian.rolap.*;
 import mondrian.spi.CatalogLocator;
-import mondrian.tui.XmlaSupport;
+//import mondrian.tui.XmlaSupport;
 import mondrian.util.*;
 import mondrian.xmla.DataSourcesConfig;
 
@@ -178,8 +178,8 @@ public class FileRepository implements Repository {
             }
 
             final String content = repositoryContentFinder.getContent();
-            DataSourcesConfig.DataSources xmlDataSources =
-                XmlaSupport.parseDataSources(content, LOGGER);
+            DataSourcesConfig.DataSources xmlDataSources = null;
+                DataSourcesUtil.parseDataSources(content, LOGGER);
             ServerInfo serverInfo = new ServerInfo();
 
             for (DataSourcesConfig.DataSource xmlDataSource

@@ -11,7 +11,8 @@ package mondrian.server;
 
 import mondrian.olap.*;
 import mondrian.rolap.RolapSchema;
-import mondrian.tui.XmlaSupport;
+//import mondrian.tui.XmlaSupport;
+import mondrian.util.DataSourcesUtil;
 import mondrian.util.Pair;
 import mondrian.xmla.DataSourcesConfig;
 
@@ -92,8 +93,8 @@ public class DynamicContentFinder
             if (!hasDataSourcesContentChanged(dataSourcesConfigString)) {
                 return;
             }
-            DataSourcesConfig.DataSources newDataSources =
-                XmlaSupport.parseDataSources(
+            DataSourcesConfig.DataSources newDataSources = null;
+                DataSourcesUtil.parseDataSources(
                     dataSourcesConfigString, LOGGER);
             if (newDataSources == null) {
                 return;
