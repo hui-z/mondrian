@@ -707,7 +707,7 @@ in {mondrian.foodmart.jdbcURL}."
           value="${mondrian.test.Name}"/>
       <!-- tests require en_US locale -->
       <sysproperty key="user.language" value="en"/>
-      <sysproperty key="user.region" value="US"/>
+      <sysproperty key="user.country" value="US"/>
 
     </java>
   </target>
@@ -1057,6 +1057,7 @@ doc/**/*.xml"
 must be run under JDK 1.7." />
   </target>
 
+
   <target name="compileJdk15">
     <javac
         destdir="${classes.dir}"
@@ -1083,7 +1084,7 @@ must be run under JDK 1.7." />
     </javac>
   </target>
 
-  <target name="compileJdk16" if="jdk16.or.later.present">
+  <target name="compileJdk16">
       <javac
         srcdir="src/main/java"
         destdir="${classes.dir}"
@@ -1099,7 +1100,7 @@ must be run under JDK 1.7." />
     </javac>
   </target>
 
-  <target name="compileJdk17" if="jdk17.present">
+  <target name="compileJdk17" >
       <javac
         srcdir="src/main/java"
         destdir="${classes.dir}"

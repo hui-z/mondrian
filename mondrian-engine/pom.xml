@@ -446,6 +446,7 @@
                         <mondrian.test.connectString>${mondrian.test.connectString}</mondrian.test.connectString>
                         <user.language>en</user.language>
                         <user.region>US</user.region>
+                        <user.country>US</user.country>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
