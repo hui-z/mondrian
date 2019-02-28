@@ -344,6 +344,10 @@ public class MondrianFoodMartLoader {
         // correctly.
         Locale.setDefault(Locale.ENGLISH);
 
+        for(String arg : args){
+            System.out.println("arg => [" + arg + "]");
+        }
+
         LOGGER.warn("Starting load at: " + (new Date()));
         try {
             new MondrianFoodMartLoader(args).load();

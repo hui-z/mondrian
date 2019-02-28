@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.kezaihui</groupId>
+    <groupId>com.kezaihui.mondrian</groupId>
     <artifactId>mondrian</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1</version>
@@ -14,33 +14,34 @@
     <name>mondrian</name>
     <description>Mondrian OLAP engine.</description>
     <url>http://github.com/hui-z/mondrian</url>
-    <licenses>
-        <license>
-            <name>Eclipse Public License</name>
-            <url>http://www.eclipse.org/legal/epl-v10.html</url>
-        </license>
-    </licenses>
-    <issueManagement/>
-    <distributionManagement>
-        <repository>
-            <id>zaihui</id>
-            <name>zaihui repository</name>
-            <url>https://nexus.kezaihui.com/repository/maven-releases</url>
-        </repository>
-    </distributionManagement>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <copyright.year>2019</copyright.year>
+        <olap4j.version>1.2.0</olap4j.version>
+        <commons-vfs2.version>2.2</commons-vfs2.version>
+        <eigenbase-properties.version>1.1.2</eigenbase-properties.version>
+        <commons-io.version>1.4</commons-io.version>
+        <mysql-connector-java.version>5.1.39</mysql-connector-java.version>
+        <olap4j-tck.version>1.0.1.539</olap4j-tck.version>
+        <eigenbase-resgen.version>1.3.1</eigenbase-resgen.version>
+        <junit.version>3.8.1</junit.version>
+        <maven-bundle-plugin.version>2.3.7</maven-bundle-plugin.version>
+        <commons-pool.version>1.2</commons-pool.version>
+        <validation-api.version>1.0.0.GA</validation-api.version>
+        <xercesImpl.version>2.9.1</xercesImpl.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <commons-math.version>1.1</commons-math.version>
+        <olap4j-xmla.version>1.2.0</olap4j-xmla.version>
+        <jsp-api.version>2.0</jsp-api.version>
+        <mockito-all.version>1.9.5</mockito-all.version>
+        <commons-dbcp.version>1.2.1</commons-dbcp.version>
+        <olap4j-xmlaserver.version>1.2.0</olap4j-xmlaserver.version>
+        <dependency.postgres.revision>42.1.1</dependency.postgres.revision>
+        <commons-logging.version>1.1.1</commons-logging.version>
+        <eigenbase-xom.version>1.3.5</eigenbase-xom.version>
+        <servlet-api.version>2.4</servlet-api.version>
+        <commons-lang.version>2.4</commons-lang.version>
+        <xmlunit.version>1.1</xmlunit.version>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

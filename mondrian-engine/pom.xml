@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>mondrian</artifactId>
-        <groupId>com.kezaihui</groupId>
+        <groupId>com.kezaihui.mondrian</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mondrian-engine</artifactId>
+    <version>${parent.version}</version>
 
     <properties>
         <project.version.minor>000</project.version.minor>
@@ -21,6 +22,8 @@
         <driver.version.minor>${project.version.minor}</driver.version.minor>
         <vendor>Pentaho</vendor>
         <driver.version.major>${project.version.major}</driver.version.major>
+        <mysql-connector-java.version>5.1.39</mysql-connector-java.version>
+        <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     </properties>
 
     <dependencies>
@@ -511,7 +514,7 @@
                                     <autocommit>true</autocommit>
                                     <orderFile>ascending</orderFile>
                                     <fileset>
-                                        <basedir>${project.basedir}/src/it/resources/sql/</basedir>
+                                        <basedir>${project.basedir}/src/test/resources/sql/</basedir>
                                         <includes>
                                             <include>create-foodmart.sql</include>
                                         </includes>
@@ -530,7 +533,7 @@
                                     <autocommit>true</autocommit>
                                     <orderFile>ascending</orderFile>
                                     <fileset>
-                                        <basedir>${project.basedir}/src/it/resources/mondrian/test/loader/</basedir>
+                                        <basedir>${project.basedir}/src/test/resources/mondrian/test/loader/</basedir>
                                         <includes>
                                             <include>SteelWheels.mysql.sql</include>
                                         </includes>
