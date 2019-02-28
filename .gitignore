@@ -29,6 +29,4 @@ mondrian.properties.template
 
 *.iml
 
-dist
-dev-lib
-bin
+generated
