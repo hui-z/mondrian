@@ -9,11 +9,11 @@
 */
 package mondrian.tui;
 
+import javax.servlet.*;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
-import javax.servlet.*;
 
 /**
  * Partial implementation of the {@link ServletContext} where just

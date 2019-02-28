@@ -12,4 +12,18 @@
     <artifactId>mondrian-xmla</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.kezaihui.mondrian</groupId>
+            <artifactId>mondrian-engine</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+    </dependencies>
 </project>

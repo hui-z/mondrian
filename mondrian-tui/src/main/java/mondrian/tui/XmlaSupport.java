@@ -9,7 +9,9 @@
 */
 package mondrian.tui;
 
-import mondrian.olap.*;
+import mondrian.olap.MondrianServer;
+import mondrian.olap.Role;
+import mondrian.olap.Util;
 import mondrian.olap.Util.ByteMatcher;
 import mondrian.rolap.RolapConnectionProperties;
 import mondrian.server.StringRepositoryContentFinder;
@@ -17,25 +19,26 @@ import mondrian.spi.CatalogLocator;
 import mondrian.spi.impl.CatalogLocatorImpl;
 import mondrian.util.LockBox;
 import mondrian.xmla.*;
-import mondrian.xmla.Enumeration;
-import mondrian.xmla.impl.*;
-
+import mondrian.xmla.impl.DefaultXmlaRequest;
+import mondrian.xmla.impl.DefaultXmlaResponse;
 import org.apache.log4j.Logger;
-
-import org.eigenbase.xom.*;
+import org.eigenbase.xom.DOMWrapper;
 import org.eigenbase.xom.Parser;
-
-import org.w3c.dom.*;
+import org.eigenbase.xom.XOMException;
+import org.eigenbase.xom.XOMUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
-import java.io.*;
-import java.util.*;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.io.*;
+import java.util.*;
+import java.util.Enumeration;
 
 /**
  * Support for making XMLA requests and looking at the responses.
@@ -273,37 +276,6 @@ public class XmlaSupport {
         final DOMWrapper def = xmlParser.parse(dsConfigReader);
 
         return new DataSourcesConfig.DataSources(def);
-    }
-
-    public static DataSourcesConfig.DataSources parseDataSources(
-        String dataSourcesConfigString,
-        Logger logger)
-    {
-        try {
-            if (dataSourcesConfigString == null) {
-                logger.warn("XmlaSupport.parseDataSources: null input");
-                return null;
-            }
-            dataSourcesConfigString =
-                Util.replaceProperties(
-                    dataSourcesConfigString,
-                    Util.toMap(System.getProperties()));
-
-            if (logger.isDebugEnabled()) {
-                logger.debug(
-                    "XmlaSupport.parseDataSources: dataSources="
-                    + dataSourcesConfigString);
-            }
-            final Parser parser =
-                XOMUtil.createDefaultParser();
-            final DOMWrapper doc = parser.parse(dataSourcesConfigString);
-            return new DataSourcesConfig.DataSources(doc);
-        } catch (XOMException e) {
-            throw Util.newError(
-                e,
-                "Failed to parse data sources config: "
-                + dataSourcesConfigString);
-        }
     }
 
     /**
@@ -1245,7 +1217,7 @@ public class XmlaSupport {
 
 
     /**
-     * See next method for JavaDoc {@link #validateEmbeddedSchema(org.w3c.dom.Document, String, String)}.
+     * See next method for JavaDoc {@link #validateEmbeddedSchema(Document, String, String)}.
      *
      */
     public static boolean validateEmbeddedSchema(

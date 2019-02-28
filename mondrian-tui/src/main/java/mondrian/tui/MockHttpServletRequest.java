@@ -9,13 +9,15 @@
 */
 package mondrian.tui;
 
+import javax.servlet.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
 
 /**
  * Partial implementation of the {@link HttpServletRequest} where just

@@ -9,9 +9,12 @@
 */
 package mondrian.tui;
 
-import java.util.*;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a partial implementation of the ServletConfig where just

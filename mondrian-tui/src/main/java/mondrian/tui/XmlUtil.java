@@ -10,25 +10,28 @@
 package mondrian.tui;
 
 import mondrian.olap.Util;
-
 import org.apache.xerces.dom.DocumentImpl;
 import org.apache.xerces.impl.Constants;
 import org.apache.xerces.parsers.DOMParser;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xpath.domapi.XPathEvaluatorImpl;
-
 import org.w3c.dom.*;
-import org.w3c.dom.xpath.*;
+import org.w3c.dom.xpath.XPathEvaluator;
+import org.w3c.dom.xpath.XPathException;
+import org.w3c.dom.xpath.XPathNSResolver;
+import org.w3c.dom.xpath.XPathResult;
 import org.xml.sax.*;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Some XML parsing, validation and transform utility methods used
@@ -888,7 +891,7 @@ public class XmlUtil {
     public static String getXercesVersion() {
         try {
             return org.apache.xerces.impl.Version.getVersion();
-        } catch (java.lang.NoClassDefFoundError ex) {
+        } catch (NoClassDefFoundError ex) {
             return "Xerces-J 2.2.0";
         }
     }
