@@ -24,4 +24,66 @@
             <version>2.4</version>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>cmdrunner</id>
+            <build>
+                <defaultGoal>verify</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>mondrian.tui.CmdRunner</mainClass>
+                                    <systemProperties>
+                                        <systemProperty>
+                                            <key>mondrian.foodmart.jdbcURL</key>
+                                            <value>${mondrian.foodmart.jdbcURL}</value>
+                                        </systemProperty>
+                                        <systemProperty>
+                                            <key>mondrian.foodmart.jdbcUser</key>
+                                            <value>${mondrian.foodmart.jdbcUser}</value>
+                                        </systemProperty>
+                                        <systemProperty>
+                                            <key>mondrian.foodmart.jdbcPassword</key>
+                                            <value>${mondrian.foodmart.jdbcPassword}</value>
+                                        </systemProperty>
+                                        <systemProperty>
+                                            <key>mondrian.catalogURL</key>
+                                            <value>${mondrian.catalogURL}</value>
+                                        </systemProperty>
+                                    </systemProperties>
+                                    <classpathScope>test</classpathScope>
+                                    <additionalClasspathElements>
+                                        <additionalClasspathElement>${project.build.directory}/it-classes</additionalClasspathElement>
+                                    </additionalClasspathElements>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

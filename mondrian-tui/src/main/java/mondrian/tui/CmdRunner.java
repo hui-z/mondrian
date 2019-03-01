@@ -11,6 +11,7 @@ package mondrian.tui;
 
 import mondrian.olap.*;
 import mondrian.olap.fun.FunInfo;
+import mondrian.olap.type.TypeUtil;
 import mondrian.rolap.RolapConnectionProperties;
 import mondrian.rolap.RolapCube;
 import mondrian.rolap.RolapStar;
