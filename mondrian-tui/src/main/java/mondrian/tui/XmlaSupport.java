@@ -21,6 +21,7 @@ import mondrian.util.LockBox;
 import mondrian.xmla.*;
 import mondrian.xmla.impl.DefaultXmlaRequest;
 import mondrian.xmla.impl.DefaultXmlaResponse;
+import mondrian.xmla.impl.MondrianXmlaServlet;
 import org.apache.log4j.Logger;
 import org.eigenbase.xom.DOMWrapper;
 import org.eigenbase.xom.Parser;
@@ -38,7 +39,7 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.*;
-import java.util.Enumeration;
+import mondrian.xmla.Enumeration;
 
 /**
  * Support for making XMLA requests and looking at the responses.
