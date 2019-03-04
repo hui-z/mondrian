@@ -6,7 +6,7 @@
     <groupId>com.kezaihui.mondrian</groupId>
     <artifactId>mondrian</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>mondrian-engine</module>
         <module>mondrian-server</module>
@@ -77,4 +77,16 @@
         </dependencies>
     </dependencyManagement>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Releases</name>
+            <url>https://nexus.kezaihui.com/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Snapshot</name>
+            <url>https://nexus.kezaihui.com/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

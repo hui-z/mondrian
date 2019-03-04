@@ -5,12 +5,34 @@
     <parent>
         <artifactId>mondrian</artifactId>
         <groupId>com.kezaihui.mondrian</groupId>
-        <version>0.0.1</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mondrian-server</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.kezaihui.mondrian</groupId>
+            <artifactId>mondrian-engine</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kezaihui.mondrian</groupId>
+            <artifactId>mondrian-web</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kezaihui.mondrian</groupId>
+            <artifactId>mondrian-xmla</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kezaihui.mondrian</groupId>
+            <artifactId>mondrian-tui</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
