@@ -738,6 +738,12 @@ public class JdbcSchema {
             }
         }
 
+        /** Name of table catalog. */
+        private final String catalog;
+
+        /** Name of table schema. */
+        private final String schema;
+
         /** Name of table. */
         private final String name;
 
@@ -765,7 +771,9 @@ public class JdbcSchema {
 
         private boolean allColumnsLoaded;
 
-        public Table(final String name, String tableType) {
+        public Table(final String catalog, final String schema, final String name, String tableType) {
+            this.catalog = catalog;
+            this.schema = schema;
             this.name = name;
             this.tableUsageType = TableUsageType.UNKNOWN;
             this.tableType = tableType;
@@ -783,6 +791,20 @@ public class JdbcSchema {
             for (Table.Column col : getColumns()) {
                 col.flushUsages();
             }
+        }
+
+        /**
+         * Returns the catalog of the table.
+         */
+        public String getCatalog() {
+            return catalog;
+        }
+
+        /**
+         * Returns the schema of the table.
+         */
+        public String getSchema() {
+            return schema;
         }
 
         /**
@@ -954,8 +976,10 @@ public class JdbcSchema {
                 try {
                     DatabaseMetaData dmd = conn.getMetaData();
 
-                    String schema = JdbcSchema.this.getSchemaName();
-                    String catalog = JdbcSchema.this.getCatalogName();
+                    //String schema = JdbcSchema.this.getSchemaName();
+                    //String catalog = JdbcSchema.this.getCatalogName();
+                    String catalog = getCatalog();
+                    String schema = getSchema();
                     String tableName = getName();
                     String columnNamePattern = "%";
 
@@ -1113,6 +1137,16 @@ public class JdbcSchema {
         return getTablesMap().get(tableName);
     }
 
+    /**
+     * Gets a table by schema and name.
+     */
+    public synchronized Table getTable(final String schema, final String tableName) {
+        if(schema == null){
+            return getTable(tableName);
+        }
+        return getTablesMap().get(schema + "." + tableName);
+    }
+
     public String toString() {
         StringWriter sw = new StringWriter(256);
         PrintWriter pw = new PrintWriter(sw);
@@ -1176,6 +1210,47 @@ public class JdbcSchema {
     }
 
     /**
+     * Gets all of the tables (and views) in the database that match a given
+     * table name.
+     *
+     * @param schemaName Schema name
+     * @param tableName Table name
+     * @throws SQLException on error
+     */
+    private void loadTables(String schemaName, String tableName) {
+        Connection conn = null;
+        try {
+            conn = getDataSource().getConnection();
+            final DatabaseMetaData databaseMetaData = conn.getMetaData();
+            List<String> tableTypes = Arrays.asList("TABLE", "VIEW");
+            if (databaseMetaData.getDatabaseProductName().toUpperCase().indexOf(
+                    "VERTICA") >= 0)
+            {
+                for (String tableType : tableTypes) {
+                    loadTablesOfType(
+                        databaseMetaData,
+                        Collections.singletonList(tableType),
+                        schemaName,
+                        tableName);
+                }
+            } else {
+                loadTablesOfType(databaseMetaData, tableTypes, schemaName, tableName);
+            }
+        } catch (SQLException e) {
+            throw Util.newError(
+                e, "Error while loading JDBC schema");
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    // no op.
+                }
+            }
+        }
+    }
+
+    /**
      * Re-loads a table. Even if all tables have already been loaded.
      *
      * @param tableName Table name
@@ -1186,6 +1261,23 @@ public class JdbcSchema {
     {
         loadTables(tableName);
         return tables.get(tableName);
+    }
+
+    /**
+     * Re-loads a table. Even if all tables have already been loaded.
+     *
+     * @param schemaName Schema name
+     * @param tableName Table name
+     * @throws SQLException on error
+     */
+    public Table reloadTable(String schemaName, String tableName)
+        throws SQLException
+    {
+        if(schemaName == null){
+            return reloadTable(tableName);
+        }
+        loadTables(schemaName, tableName);
+        return tables.get(schemaName + "." + tableName);
     }
 
     /**
@@ -1221,6 +1313,36 @@ public class JdbcSchema {
         }
     }
 
+    private void loadTablesOfType(
+        DatabaseMetaData databaseMetaData,
+        List<String> tableTypes,
+        String schemaName,
+        String tableName)
+        throws SQLException
+    {
+        final String schema = schemaName;
+        final String catalog = getCatalogName();
+        ResultSet rs = null;
+        try {
+            rs = databaseMetaData.getTables(
+                catalog,
+                schema,
+                tableName,
+                tableTypes.toArray(new String[tableTypes.size()]));
+            if (rs == null) {
+                getLogger().debug("ERROR: rs == null");
+                return;
+            }
+            while (rs.next()) {
+                addTable(rs);
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+        }
+    }
+
     /**
      * Makes a Table from an ResultSet: the table's name is the ResultSet third
      * entry.
@@ -1232,15 +1354,22 @@ public class JdbcSchema {
         final ResultSet rs)
         throws SQLException
     {
+        String catalog = rs.getString(1);
+        String schema = rs.getString(2);
         String name = rs.getString(3);
         String tableType = rs.getString(4);
-        Table table = new Table(name, tableType);
+//        Table table = new Table(name, tableType);
+        Table table = new Table(catalog, schema, name, tableType);
 
-        tables.put(table.getName(), table);
+        String tableKey = (schema == null ? "" : (table.getSchema() + "."))
+            + table.getName();
+
+//        tables.put(table.getName(), table);
+        tables.put(tableKey, table);
     }
 
     private SortedMap<String, Table> getTablesMap() {
-        load();
+        //load();
         return tables;
     }
 

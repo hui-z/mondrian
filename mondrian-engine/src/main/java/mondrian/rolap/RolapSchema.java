@@ -921,7 +921,7 @@ public class RolapSchema extends OlapElementBase implements Schema {
                 JdbcSchema.makeDB(
                     internalConnection.getDataSource(),
                     dataServicesProvider.getJdbcSchemaFactory());
-            jdbcSchema.load();
+//            jdbcSchema.load();
             statistic = new PhysStatistic(dialect, internalConnection);
         }
 
@@ -1829,21 +1829,23 @@ public class RolapSchema extends OlapElementBase implements Schema {
             RolapSchemaLoader loader, NodeDef xmlNode, int[] rowCountAndSize)
         {
             JdbcSchema.Table jdbcTable =
-                physSchema.jdbcSchema.getTable(name);
+//                physSchema.jdbcSchema.getTable(name);
+                physSchema.jdbcSchema.getTable(schemaName, name);
             if (jdbcTable == null) {
-                if (hook == null) {
-                    loader.getHandler().warning(
-                        "Table '" + name + "' does not exist in database.",
-                        xmlNode,
-                        null);
-                    return false;
-                }
-                hook.apply(
-                    this,
-                    loader.schema.getInternalConnection());
-                hook = null;
+//                if (hook == null) {
+//                    loader.getHandler().warning(
+//                        "Table '" + name + "' does not exist in database.",
+//                        xmlNode,
+//                        null);
+//                    return false;
+//                }
+//                hook.apply(
+//                    this,
+//                    loader.schema.getInternalConnection());
+//                hook = null;
                 try {
-                    jdbcTable = physSchema.jdbcSchema.reloadTable(name);
+//                    jdbcTable = physSchema.jdbcSchema.reloadTable(name);
+                    jdbcTable = physSchema.jdbcSchema.reloadTable(schemaName, name);
                 } catch (SQLException e) {
                     throw Util.newError(
                         "Error while re-loading table '" + name + "'");
