@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mondrian-engine</artifactId>
-    <version>0.0.1-RELEASE</version>
+    <version>${parent.version}</version>
 
     <dependencies>
         <dependency>
