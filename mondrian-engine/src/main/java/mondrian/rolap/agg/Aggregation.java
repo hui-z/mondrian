@@ -350,7 +350,7 @@ public class Aggregation {
         // but not an absolute one.
 
         double abloat = 1.0;
-        final double aBloatLimit = .5;
+        final double aBloatLimit = .1;
 
         for (int j : indexes) {
             abloat = abloat * bloats[j];
